@@ -423,21 +423,21 @@ scroll-conservatively 10000)
 (global-set-key (kbd "C-c C-f") 'moccur-grep-find)
 
 ;;在buffer左侧显示行号
-(dolist (hook (list
-			   'c-mode-hook
-			   'c++-mode-hook
-			   'emacs-lisp-mode-hook
-										;'lisp-interaction-mode-hook
-			   'lisp-mode-hook
-			   'emms-playlist-mode-hook
-			   'java-mode-hook
-			   'asm-mode-hook
-			   'haskell-mode-hook
-			   'rcirc-mode-hook
-			   'sh-mode-hook
-			   'makefile-gmake-mode-hook
-			   ))
-  (add-hook hook (lambda () (linum-mode 1))))
+;;(dolist (hook (list
+;;			   'c-mode-hook
+	;;		   'c++-mode-hook
+;;			   'emacs-lisp-mode-hook
+;;										;'lisp-interaction-mode-hook
+;;			   'lisp-mode-hook
+;;			   'emms-playlist-mode-hook
+;;			   'java-mode-hook
+;;			   'asm-mode-hook
+;;			   'haskell-mode-hook
+;;			   'rcirc-mode-hook
+;;			   'sh-mode-hook
+;;			   'makefile-gmake-mode-hook
+;;			   ))
+;;  (add-hook hook (lambda () (linum-mode 1))))
 
 ;最大化
 ;(defun my-maximized ()
