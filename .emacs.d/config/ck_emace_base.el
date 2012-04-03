@@ -456,8 +456,8 @@ scroll-conservatively 10000)
 (run-with-idle-timer 0.5 nil 'w32-send-sys-command 61488)  
 
 ;;;;高亮当前行
-(require 'hl-line)
-(global-hl-line-mode t)
+;;(require 'hl-line)
+;;(global-hl-line-mode t)
 
 ;不生成 #filename# 临时文件
 (setq auto-save-default nil)
@@ -470,3 +470,7 @@ scroll-conservatively 10000)
 
 (setq auto-mode-alist
 (append '(("\\.txt\\'" . org-mode)) auto-mode-alist)) 
+
+
+;;文件打开历史
+(require 'history)
