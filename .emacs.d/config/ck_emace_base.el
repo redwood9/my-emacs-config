@@ -9,11 +9,22 @@
 (require 'ido)
 (ido-mode t)
  
+''最近打开的文件
+(require 'recentf)
+(recentf-mode t)
+
 ;; 自动为 C/C++ 的头文件添加 #define 保护。
 (auto-insert-mode) ;;; Adds hook to find-files-hook
 (setq auto-insert-directory "~/.emacs.d/mytemplates/") ;;; Or use custom, *NOTE* Trailing slash important
 (setq auto-insert-query nil)
-(add-hook 'find-file-hooks 'auto-insert)
+;;(add-hook 'find-file-hooks 'auto-insert)
+(setq auto-insert-alist
+      (append '((f90-mode . "Template.f90")
+            (python-mode . "Template.py")
+            (c-mode . "Template.c")
+		(c-mode . "Template.h")
+            )
+           auto-insert-alist))
 
 ;;(require 'layout-restore)
 ;;(global-set-key (kbd "C-c l") 'layout-save-current)
@@ -416,7 +427,7 @@ scroll-conservatively 10000)
 (global-set-key [f3] 'other-window)
 
 ;;linum+
-(require 'linum+)
+;;(require 'linum+)
 
 ;在文件夹中搜索文件
 (require 'color-moccur)
@@ -471,6 +482,8 @@ scroll-conservatively 10000)
 (setq auto-mode-alist
 (append '(("\\.txt\\'" . org-mode)) auto-mode-alist)) 
 
+;;语法显示打文件慢，解决
+(setq lazy-lock-defer-on-scrolling t)
+;;(setq font-lock-support-mode 'lazy-lock-mode)
+(setq font-lock-maximum-decoration t)
 
-;;文件打开历史
-(require 'history)
