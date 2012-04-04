@@ -25,7 +25,7 @@
 		(c-mode . "Template.h")
             )
            auto-insert-alist))
-
+ 
 ;;(require 'layout-restore)
 ;;(global-set-key (kbd "C-c l") 'layout-save-current)
 ;;(global-set-key (kbd "C-c C-l C-l") 'layout-restore)
