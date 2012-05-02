@@ -93,3 +93,19 @@
 ;;                ;; use `ac-source-php-completion-patial' instead of `ac-source-php-completion'.
 ;;                ;; (add-to-list 'ac-sources 'ac-source-php-completion-patial)
                 (auto-complete-mode t))))
+
+
+;; php文件加入speedbar
+;;(eval-after-load "speedbar" '(speedbar-add-supported-extension ".php"))
+'(php-mode-speedbar-open t)
+'(php-speedbar-config nil)
+'(speedbar-load-hook nil)
+'(speedbar-show-unknown-files t)
+'(speedbar-supported-extension-expressions (quote (".php" ".pac"
+												   ".js" "\\.\\(inc\\|php[s34]?\\)" ".[ch]\\(\\+\\+\\|pp\\|c\\|h\\|xx\
+\)?" ".tex\\(i\\(nfo\\)?\\)?" ".el" ".emacs" ".l" ".lsp" ".p" ".java"
+".f\\(90\\|77\\|or\\)?" ".ada" ".p[lm]" ".tcl" ".m" ".scm" ".pm" ".py"
+".g" ".s?html" ".ma?k" "[Mm]akefile\\(\\.in\\)?")))
+'(speedbar-track-mouse-flag t)
+'(speedbar-use-imenu-flag t)
+'(speedbar-verbosity-level 10)
