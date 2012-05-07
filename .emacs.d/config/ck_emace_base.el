@@ -293,7 +293,7 @@ scroll-conservatively 10000)
   (interactive "P")
   (if (null n) (setq n 7))
   (next-line n))
-(define-key   global-map   "\C-u"  'roll-up)
+;;(define-key   global-map   "\C-u"  'roll-up)
 (defun roll-up (&optional n)
   "simulate roll up"
   (interactive "P")
@@ -487,3 +487,18 @@ scroll-conservatively 10000)
 ;;(setq font-lock-support-mode 'lazy-lock-mode)
 (setq font-lock-maximum-decoration t)
 
+
+;; 如果没有激活的区域，就注释、反注释当前行，仅当在行尾的时候才在行尾加注释
+;; 如果有选择区域，则注释整个区域
+(defun qiang-comment-dwim-line (&optional arg)
+  "Replacement for the comment-dwim command.
+If no region is selected and current line is not blank and
+we are not at the end of the line, then comment current line.
+Replaces default behaviour of comment-dwim,
+when it inserts comment at the end of the line. "
+  (interactive "*P")
+  (comment-normalize-vars)
+  (if (and (not (region-active-p)) (not (looking-at "[ \t]*$")))
+      (comment-or-uncomment-region (line-beginning-position) (line-end-position))
+    (comment-dwim arg)))
+(global-set-key "\M-;" 'qiang-comment-dwim-line)
