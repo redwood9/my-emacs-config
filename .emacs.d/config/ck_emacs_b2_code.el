@@ -20,7 +20,7 @@
 ;;头文件的查找目录定义好了，下面对 c-mode 做一些小小的定义：
 (add-hook 'c-mode-common-hook
 '(lambda()
-(c-toggle-auto-hungry-state 1)
+;;(c-toggle-auto-hungry-state 1)
 (c-set-style "K&R"))) 
 
 (add-hook 'c++-mode-common-hook
@@ -177,3 +177,19 @@
 (add-hook 'f90-mode-hook
             (lambda ()
                 (local-set-key [(return)] 'newline-and-indent)))
+
+;;(add-to-list 'load-path "~/.emacs.d/packages/jquery-doc")
+(require 'jquery-doc)
+;; adds ac-source-jquery to the ac-sources list
+(add-hook 'js2-mode-hook 'jquery-doc-setup)
+
+
+;;javascript配置
+;;speedbar
+(speedbar-add-supported-extension ".cs")
+;;加载js2-mode
+(autoload 'js2-mode "js2" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
+(require 'ace-jump-mode)
+(define-key global-map (kbd "C-c C-c") 'ace-jump-mode)
