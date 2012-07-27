@@ -323,8 +323,10 @@ Default action as described in `semanticdb-find-translate-path'."
 	 (cond ((null path) semanticdb-current-database)
 	       ((semanticdb-table-p path) (oref path parent-db))
 	       (t (let ((tt (semantic-something-to-tag-table path)))
-		    ;; @todo - What does this DO ??!?!
-		    (with-current-buffer (semantic-tag-buffer (car tt))
+		    (if tt
+			;; @todo - What does this DO ??!?!
+			(with-current-buffer (semantic-tag-buffer (car tt))
+			  semanticdb-current-database)
 		      semanticdb-current-database))))))
     (apply
      #'nconc
@@ -899,8 +901,9 @@ instead."
 		;; Find-file-match allows a tool to make sure the tag is
 		;; 'live', somewhere in a buffer.
 		(cond ((eq find-file-match 'name)
-		       (let ((f (semanticdb-full-filename nametable)))
-			 (semantic--tag-put-property ntag :filename f)))
+		       (or (semantic--tag-get-property ntag :filename)
+			   (let ((f (semanticdb-full-filename nametable)))
+			     (semantic--tag-put-property ntag :filename f))))
 		      ((and find-file-match ntab)
 		       (semanticdb-get-buffer ntab))
 		      )

@@ -215,7 +215,7 @@
 ;; Thanks to Drew Adams for various fixes (frame, isearch, customization, etc.)
 ;; Thanks to IMAKADO for candidates-in-buffer idea.
 ;; Thanks to Tomohiro MATSUYAMA for multiline patch.
-;;
+;;    
 
 ;;; (@* "Index")
 

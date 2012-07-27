@@ -154,7 +154,7 @@ If nil, then the typescope is reset."
 
 ;;;###autoload
 (defun semantic-scope-tag-clone-with-scope (tag scopetags)
-  "Close TAG, and return it.  Add SCOPETAGS as a tag-local scope.
+  "Clone TAG, and return it.  Add SCOPETAGS as a tag-local scope.
 Stores the SCOPETAGS as a set of tag properties on the cloned tag."
   (let ((clone (semantic-tag-clone tag))
 	)
@@ -192,7 +192,7 @@ Use `semantic-ctxt-scoped-types' to find types."
 		       (semanticdb-typecache-find (car sp)))
 		       ;(semantic-analyze-find-tag (car sp) 'type))
 		      ((semantic-tag-p (car sp))
-		       (if (semantic-analyze-tag-prototype-p (car sp))
+		       (if (semantic-tag-prototype-p (car sp))
 			   (semanticdb-typecache-find (semantic-tag-name (car sp)))
 			   ;;(semantic-analyze-find-tag (semantic-tag-name (car sp)) 'type)
 			 (car sp)))

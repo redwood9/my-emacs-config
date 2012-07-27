@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2002, 2003 Vladimir G. Sekissov
 
-;; Author:  <ck@1-5AA914AEFB894>
-;; Created: 2011-04-08 13:40:37+0800
+;; Author:  <chengkui@HS-CHENGKUI>
+;; Created: 2012-05-02 18:05:11+0800
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

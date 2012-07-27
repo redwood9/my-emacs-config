@@ -97,15 +97,20 @@
 
 ;; php文件加入speedbar
 ;;(eval-after-load "speedbar" '(speedbar-add-supported-extension ".php"))
-'(php-mode-speedbar-open t)
-'(php-speedbar-config nil)
-'(speedbar-load-hook nil)
-'(speedbar-show-unknown-files t)
-'(speedbar-supported-extension-expressions (quote (".php" ".pac"
-												   ".js" "\\.\\(inc\\|php[s34]?\\)" ".[ch]\\(\\+\\+\\|pp\\|c\\|h\\|xx\
-\)?" ".tex\\(i\\(nfo\\)?\\)?" ".el" ".emacs" ".l" ".lsp" ".p" ".java"
-".f\\(90\\|77\\|or\\)?" ".ada" ".p[lm]" ".tcl" ".m" ".scm" ".pm" ".py"
-".g" ".s?html" ".ma?k" "[Mm]akefile\\(\\.in\\)?")))
-'(speedbar-track-mouse-flag t)
-'(speedbar-use-imenu-flag t)
-'(speedbar-verbosity-level 10)
+
+
+
+;; ctags
+;;(load-file "~/.emacs.d/packages/cedet/common/cedet.el")
+;;(autoload 'speedbar "speedbar")
+;;(setq speedbar-fetch-etags-command "etags"
+;;      speedbar-fetch-etags-arguments '("-f" "-"))
+(require 'semanticdb-ectag)
+
+
+(speedbar-add-supported-extension ".php")
+(add-to-list 'speedbar-fetch-etags-parse-list
+			 '("\\.php" . speedbar-parse-c-or-c++tag))
+
+
+;;(semantic-load-enable-primary-exuberent-ctags-support)

@@ -502,3 +502,11 @@ when it inserts comment at the end of the line. "
       (comment-or-uncomment-region (line-beginning-position) (line-end-position))
     (comment-dwim arg)))
 (global-set-key "\M-;" 'qiang-comment-dwim-line)
+
+
+
+(setq explicit-shell-file-name "D:/MinGW/msys/1.0/bin/bash.exe")
+(setq shell-file-name "bash")
+(setq explicit-bash.exe-args '("--noediting" "--login" "-li"))
+(setenv "SHELL" shell-file-name)
+(add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)

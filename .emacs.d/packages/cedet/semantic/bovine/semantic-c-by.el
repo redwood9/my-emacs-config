@@ -1,9 +1,9 @@
 ;;; semantic-c-by.el --- Generated parser support file
 
-;; Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Eric M. Ludlam
+;; Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2012 Eric M. Ludlam
 
-;; Author:  <ck@1-5AA914AEFB894>
-;; Created: 2011-04-08 13:40:34+0800
+;; Author:  <chengkui@HS-CHENGKUI>
+;; Created: 2012-05-02 18:05:07+0800
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
@@ -2000,6 +2000,15 @@
 	 (concat
 	  "*"
 	  (nth 2 vals))))
+      )
+     (open-paren
+      "("
+      symbol
+      close-paren
+      ")"
+      ,(semantic-lambda
+	(list
+	 (nth 1 vals)))
       )
      ) ;; end function-pointer
 

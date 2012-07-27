@@ -1,6 +1,6 @@
 ;;; cedet.el --- Setup CEDET environment
 
-;; Copyright (C) 2007, 2008, 2009, 2010 by Eric M. Ludlam
+;; Copyright (C) 2007, 2008, 2009, 2010, 2012 by Eric M. Ludlam
 ;; Copyright (C) 2002, 2003, 2004, 2005, 2006 by David Ponce
 
 ;; Author: David Ponce <david@dponce.com>
@@ -81,27 +81,40 @@
   (require 'cl)
   )
 
-(defconst cedet-version "1.1beta"
+(defconst cedet-version "1.1"
   "Current version of CEDET.")
 
-(defconst cedet-emacs-min-version "21.1"
+(defconst cedet-emacs-min-version "22.1"
   "Minimum version of GNU Emacs supported by CEDET.")
 (defconst cedet-xemacs-min-version "21.4"
   "Minimum version of XEmacs supported by CEDET.")
+(defconst cedet-sxemacs-min-version "22.1.12"
+  "Minimum version of SXEmacs supported by CEDET.")
 
 (defconst cedet-packages
   `(
     ;;PACKAGE   MIN-VERSION      INSTALLDIR  DOCDIR
-    (cedet         ,cedet-version "common"   "common" 	   )
-    (eieio         "1.4beta"           nil       "eieio"       )
-    (semantic      "2.1beta"           nil       "semantic/doc")
-    (srecode       "1.1beta"           nil       "srecode"     ) 
-    (ede           "1.1beta"           nil       "ede"    	   )    
+    (cedet         ,cedet-version "common"   "common" 	        )
+    (eieio         "1.4"           nil       "eieio"       )
+    (semantic      "2.1"           nil       "semantic/doc")
+    (srecode       "1.1"           nil       "srecode"     ) 
+    (ede           "1.1"           nil       "ede"         )    
     (speedbar      "1.0.4"         nil       "speedbar"    )
-    (cogre         "1.1beta"           nil       "cogre"  	   )
-    (cedet-contrib "1.1beta"           "contrib" nil           )
+    (cogre         "1.1"           nil       "cogre"       )
+    (cedet-contrib "1.1"           "contrib" nil           )
     )
   "Table of CEDET packages to install.")
+
+(when (and (featurep 'eieio)
+	   (not (string= eieio-version
+			 (nth 1 (assoc 'eieio cedet-packages)))))
+  (message "Another EIEIO version is already loaded, probably the \
+version which ships with Emacs, and this one is currently incompatible \
+with CEDET-bzr.")
+  (message "You can fix this issue by putting the `load' \
+command at the beginning of your init file.")
+  (error "EIEIO Version %s already loaded; \
+load CEDET at the beginning of your init file to avoid this." eieio-version))
 
 ;; This file must be in "<INSTALL-DIR>/cedet/common"!
 (let ((default-directory
@@ -116,7 +129,8 @@
   
   ;; Require specific Emacs versions
   (inversion-require-emacs cedet-emacs-min-version
-			   cedet-xemacs-min-version)
+			   cedet-xemacs-min-version
+			   cedet-sxemacs-min-version)
 
   ;; Go up to the parent "<INSTALL-DIR>/cedet" directory.
   (let ((default-directory (expand-file-name ".."))

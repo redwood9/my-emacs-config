@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2002, 2003, 2004 David Ponce
 
-;; Author:  <ck@1-5AA914AEFB894>
-;; Created: 2011-04-08 13:39:59+0800
+;; Author:  <chengkui@HS-CHENGKUI>
+;; Created: 2012-05-02 18:04:30+0800
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

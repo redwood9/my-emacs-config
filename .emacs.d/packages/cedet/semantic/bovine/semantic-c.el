@@ -1,6 +1,6 @@
 ;;; semantic-c.el --- Semantic details for C
 
-;;; Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Eric M. Ludlam
+;;; Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2012 Eric M. Ludlam
 
 ;; Author: Eric M. Ludlam <zappo@gnu.org>
 ;; X-RCS: $Id: semantic-c.el,v 1.145 2010-08-05 03:01:57 zappo Exp $
@@ -66,6 +66,8 @@ This function does not do any hidden buffer changes."
 ;;; Code:
 (define-child-mode c++-mode c-mode
   "`c++-mode' uses the same parser as `c-mode'.")
+(define-child-mode arduino-mode c++-mode
+  "`arduino-mode' uses the same parser as `c++-mode'.")
 
 
 ;;; Include Paths
@@ -102,8 +104,13 @@ NOTE: In process of obsoleting this."
   '( ("__THROW" . "")
      ("__const" . "const")
      ("__restrict" . "")
+     ("__attribute_pure__" . "")
+     ("__attribute_malloc__" . "")
+     ("__nonnull" . "")
+     ("__wur" . "")
      ("__declspec" . ((spp-arg-list ("foo") 1 . 2)))
      ("__attribute__" . ((spp-arg-list ("foo") 1 . 2)))
+     ("__asm" . ((spp-arg-list ("foo") 1 . 2)))
      )
   "List of symbols to include by default.")
 
@@ -115,6 +122,13 @@ part of the preprocessor map.")
 (defun semantic-c-reset-preprocessor-symbol-map ()
   "Reset the C preprocessor symbol map based on all input variables."
   (when (featurep 'semantic-c)
+    (remove-hook 'mode-local-init-hook 'semantic-c-reset-preprocessor-symbol-map)
+    ;; Initialize semantic-lex-spp-macro-symbol-obarray with symbols.
+    (setq-mode-local c-mode
+		     semantic-lex-spp-macro-symbol-obarray
+		     (semantic-lex-make-spp-table
+		      (append semantic-lex-c-preprocessor-symbol-map-builtin
+			      semantic-lex-c-preprocessor-symbol-map)))
     (let ((filemap nil)
 	  )
       (when (and (not semantic-c-in-reset-preprocessor-table)
@@ -137,17 +151,17 @@ part of the preprocessor map.")
 		    (error (message "Error updating tables for %S"
 				    (object-name table)))))
 		(setq filemap (append filemap (oref table lexical-table)))
-		)
-	      ))))
+		;; Update symbol obarray
+		(setq-mode-local c-mode
+				 semantic-lex-spp-macro-symbol-obarray
+				 (semantic-lex-make-spp-table
+				  (append semantic-lex-c-preprocessor-symbol-map-builtin
+					  semantic-lex-c-preprocessor-symbol-map
+					  filemap)))))))))))
 
-      (setq-mode-local c-mode
-		       semantic-lex-spp-macro-symbol-obarray
-		       (semantic-lex-make-spp-table
-			(append semantic-lex-c-preprocessor-symbol-map-builtin
-				semantic-lex-c-preprocessor-symbol-map
-				filemap))
-		       )
-      )))
+;; Make sure the preprocessor symbols are set up when mode-local kicks
+;; in.
+(add-hook 'mode-local-init-hook 'semantic-c-reset-preprocessor-symbol-map)
 
 ;;;###autoload
 (defcustom semantic-lex-c-preprocessor-symbol-map nil
@@ -245,7 +259,13 @@ Return the defined symbol as a special spp lex token."
 	   (raw-stream
 	    (semantic-lex-spp-stream-for-macro (save-excursion
 						 (semantic-c-end-of-macro)
-						 (point))))
+						 ;; HACK - If there's a C comment after
+						 ;; the macro, do not parse it.
+						 (if (looking-back "/\\*.*")
+						     (progn
+						       (goto-char (match-beginning 0))
+						       (1- (point)))
+						   (point)))))
 	   )
 
       ;; Only do argument checking if the paren was immediatly after
@@ -293,9 +313,10 @@ Moves completely over balanced #if blocks."
       (cond
        ((looking-at "^\\s-*#\\s-*if")
 	;; We found a nested if.  Skip it.
-	;; @TODO - can we use the new c-scan-conditionals
-	;; - available in Emacs/CVS as of AUG 2009
-	(c-forward-conditional 1))
+	(if (fboundp 'c-scan-conditionals)
+	    (goto-char (c-scan-conditionals 1))
+	  ;; For older Emacsen, but this will set the mark.
+	  (c-forward-conditional 1)))
        ((looking-at "^\\s-*#\\s-*elif")
 	;; We need to let the preprocessor analyze this one.
 	(beginning-of-line)
@@ -1008,7 +1029,7 @@ now.
       ;; If we didn't have a list, but the return-list is non-empty,
       ;; that means we still need to take our existing tag, and glom
       ;; it onto our extracted type.
-      (if (consp return-list)
+      (if (and tag (consp return-list))
 	  (setq return-list (cons tag return-list)))
       )
 
@@ -1440,6 +1461,19 @@ For C++, we also have to search namespaces for include tags."
 		     (semantic-tag-get-attribute cur :members)))))
     tags))
 
+;;; For arduino, we need to glom WProgram to the beginning of the pde
+;; sketch.
+(define-mode-local-override semantic-find-tags-included arduino-mode (&optional table)
+  "When looking up includes for this buffer, always include an arduino header.
+For versions of arduino before 1.0, include WProgram.h.  For 1.0 and after
+we need to instead use Arduino.h.  Add both since semantic doesn't care if it
+can't find one of them."
+  (cons (semantic-tag-new-include "WProgram.h" t)
+	(cons
+	 (semantic-tag-new-include "Arduino.h" t)
+	 (semantic-find-tags-included-default table))))
+
+
 (define-mode-local-override semantic-tag-components c-mode (tag)
   "Return components for TAG."
   (if (and (eq (semantic-tag-class tag) 'type)
@@ -1543,7 +1577,7 @@ SCOPE is not used, and TYPE-DECLARATION is used only if TYPE is not a typedef."
            (string= (semantic-tag-type type) "typedef"))
       (let ((dt (semantic-tag-get-attribute type :typedef)))
         (cond ((and (semantic-tag-p dt)
-                    (not (semantic-analyze-tag-prototype-p dt)))
+                    (not (semantic-tag-prototype-p dt)))
 	       ;; In this case, DT was declared directly.  We need
 	       ;; to clone DT and apply a filename to it.
 	       (let* ((fname (semantic-tag-file-name type))
@@ -1877,6 +1911,7 @@ have to be wrapped in that namespace."
 	(inside-ns (semantic-tag-get-attribute includetag :inside-ns))
 	tags newtags namespaces prefix parenttable newtable)
     (if (or (null inside-ns)
+	    (not inctable)
 	    (not (slot-boundp inctable 'tags)))
 	inctable
       (when (and (eq inside-ns t)
@@ -2046,6 +2081,8 @@ actually in their parent which is not accessible.")
 
   (setq semantic-lex-analyzer #'semantic-c-lexer)
   (add-hook 'semantic-lex-reset-hooks 'semantic-lex-spp-reset-hook nil t)
+  (when (eq major-mode 'c++-mode)
+    (add-to-list 'semantic-lex-c-preprocessor-symbol-map '("__cplusplus" . "")))
   )
 
 ;;;###autoload
@@ -2068,13 +2105,16 @@ actually in their parent which is not accessible.")
 (add-hook 'c-mode-hook 'semantic-default-c-setup)
 ;;;###autoload
 (add-hook 'c++-mode-hook 'semantic-default-c-setup)
+;;;###autoload
+(add-hook 'arduino-mode-hook 'semantic-default-c-setup)
 
 ;;; SETUP QUERY
 ;;
 (defun semantic-c-describe-environment ()
   "Describe the Semantic features of the current C environment."
   (interactive)
-  (if (not (or (eq major-mode 'c-mode) (eq major-mode 'c++-mode)))
+  (if (not (or (eq major-mode 'c-mode) (eq major-mode 'c++-mode)
+	       (eq major-mode 'arduino-mode)))
       (error "Not useful to query C mode in %s mode" major-mode))
   (let ((gcc (when (boundp 'semantic-gcc-setup-data)
 	       semantic-gcc-setup-data))
@@ -2181,8 +2221,6 @@ actually in their parent which is not accessible.")
       )))
 
 (provide 'semantic-c)
-
-(semantic-c-reset-preprocessor-symbol-map)
 
 ;;; semantic-c.el ends here
 
