@@ -6,6 +6,9 @@
 (global-set-key (kbd "C-p") (lambda (&optional n) (interactive "p")
 (scroll-down (or n 1))))
 
+;;F4打开最近打开的文件列表
+(global-set-key [f4] 'recentf-open-files)
+
 (require 'ido)
 (ido-mode t)
  
@@ -137,7 +140,9 @@ scroll-conservatively 10000)
 ;;                    )
 ;;(setq x-select-enable-clipboard t)
 
-
+;;emacs 24 theme
+(add-to-list 'custom-theme-load-path "~/.emacs.d/packages/")
+(load-theme 'zenburn t)
 
 ;;recent-jump
 (setq recent-jump-threshold 4)
@@ -161,10 +166,10 @@ scroll-conservatively 10000)
 
 
 ;;去掉工具栏
-;;(when (eq system-type 'gnu/linux)
+(when (eq system-type 'gnu/linux)
 (tool-bar-mode nil)
 (menu-bar-mode nil)
-;;)
+)
 
 ;;光标设置
 ;;(setq-default cursor-type 'bar)
@@ -186,7 +191,7 @@ scroll-conservatively 10000)
 ;;确定使用的是滚轮鼠标
 (show-paren-mode 1)
 ;;命令行下可以使用鼠标定位
-(xterm-mouse-mode 0)
+(xterm-mouse-mode 1)
 
 ;;;;;TAB缩进配置;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq indent-tabs-mode nil)
@@ -285,20 +290,7 @@ scroll-conservatively 10000)
 ;;scroll-conservatively 10000)
 
 
-;; 模拟鼠标滚轮
-;; TODO: 怎样把他们绑定到C-m和C-u
-;;(define-key   global-map   "\C-h" 'roll-down)
-(defun roll-down (&optional n)
-  "simulate roll down"
-  (interactive "P")
-  (if (null n) (setq n 7))
-  (next-line n))
-;;(define-key   global-map   "\C-u"  'roll-up)
-(defun roll-up (&optional n)
-  "simulate roll up"
-  (interactive "P")
-  (if (null n) (setq n 7))
-  (previous-line n))
+
 (when (eq system-type 'windows-nt)
         (prefer-coding-system 'gbk-dos))
 (when (eq system-type 'gnu/linux)
@@ -397,7 +389,8 @@ scroll-conservatively 10000)
 				  (line-end-position))
 				  ;; (line-beginning-position (+ 1 arg)))
   (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
-(global-set-key (kbd "M-k") 'qiang-copy-line)
+
+
 
 ;;copy 光标所在单词
 (defun copy-word (&optional arg)
@@ -407,7 +400,7 @@ scroll-conservatively 10000)
    (end (progn (forward-word arg) (point))))
 (copy-region-as-kill beg end))
 )
-
+(global-set-key (kbd "M-w") 'copy-region-as-kill)
 
 ;;(global-set-key (kbd "M-w") 'copy-word)
 
@@ -434,21 +427,26 @@ scroll-conservatively 10000)
 (global-set-key (kbd "C-c C-f") 'moccur-grep-find)
 
 ;;在buffer左侧显示行号
-;;(dolist (hook (list
-;;			   'c-mode-hook
-	;;		   'c++-mode-hook
-;;			   'emacs-lisp-mode-hook
-;;										;'lisp-interaction-mode-hook
-;;			   'lisp-mode-hook
-;;			   'emms-playlist-mode-hook
-;;			   'java-mode-hook
-;;			   'asm-mode-hook
-;;			   'haskell-mode-hook
-;;			   'rcirc-mode-hook
-;;			   'sh-mode-hook
-;;			   'makefile-gmake-mode-hook
-;;			   ))
-;;  (add-hook hook (lambda () (linum-mode 1))))
+(dolist (hook (list
+			   'c-mode-hook
+			   'c++-mode-hook
+			   'emacs-lisp-mode-hook
+										;'lisp-interaction-mode-hook
+			   'lisp-mode-hook
+			   'emms-playlist-mode-hook
+			   'java-mode-hook
+			   'asm-mode-hook
+			   'haskell-mode-hook
+			   'rcirc-mode-hook
+			   'sh-mode-hook
+			   'makefile-gmake-mode-hook
+			   'javascript-mode-hook
+			   'js-mode-hook
+			   'js2-mode-hook
+			   'html-mode-hook
+			   'css-mode-hook
+			   ))
+ (add-hook hook (lambda () (linum-mode 1))))
 
 ;最大化
 ;(defun my-maximized ()

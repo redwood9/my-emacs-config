@@ -194,6 +194,10 @@
 
 ;;(autoload 'espresso-mode "espresso")
 (autoload 'espresso-mode "espresso" nil t)
+(setq espresso-indent-level 4
+	  indent-tabs-mode nil
+	  c-basic-offset 4)
+
 (autoload 'js2-mode "js2-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 ;;(require 'js2-highlight-vars)
