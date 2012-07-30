@@ -61,7 +61,6 @@
 ;; Code:
 
 ;;; Code
-
 (eval-and-compile
   (require 'cc-mode)
   (require 'font-lock)

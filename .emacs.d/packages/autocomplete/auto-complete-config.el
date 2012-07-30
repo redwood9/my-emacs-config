@@ -143,7 +143,11 @@
   (with-no-warnings
     (if (fboundp 'yas/get-snippet-tables)
         ;; >0.6.0
-        (apply 'append (mapcar 'ac-yasnippet-candidate-1 (yas/get-snippet-tables major-mode)))
+        (apply 'append (mapcar 'ac-yasnippet-candidate-1
+                               (condition-case nil
+                                   (yas/get-snippet-tables major-mode)
+                                 (wrong-number-of-arguments
+                                  (yas/get-snippet-tables)))))
       (let ((table
              (if (fboundp 'yas/snippet-table)
                  ;; <0.6.0
@@ -368,7 +372,7 @@
   "Current editing property.")
 
 (defun ac-css-prefix ()
-  (when (save-excursion (re-search-backward "\\_<\\(.+?\\)\\_>\\s *:.*\\=" nil t))
+  (when (save-excursion (re-search-backward "\\_<\\(.+?\\)\\_>\\s *:[^;]*\\=" nil t))
     (setq ac-css-property (match-string 1))
     (or (ac-prefix-symbol) (point))))
 
@@ -470,7 +474,8 @@
 ;;;; Default settings
 
 (defun ac-common-setup ()
-  (add-to-list 'ac-sources 'ac-source-filename))
+  ;(add-to-list 'ac-sources 'ac-source-filename)
+  )
 
 (defun ac-emacs-lisp-mode-setup ()
   (setq ac-sources (append '(ac-source-features ac-source-functions ac-source-yasnippet ac-source-variables ac-source-symbols) ac-sources)))

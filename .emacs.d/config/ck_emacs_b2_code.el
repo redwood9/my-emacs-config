@@ -40,14 +40,22 @@
 (global-set-key [(f7)] 'compile)
 
 ;;auto-complete模式配置
-(require 'auto-complete)
+;; (require 'auto-complete)
+;; (require 'auto-complete-config)
+;; (global-auto-complete-mode t)
+(add-to-list 'load-path "~/.emacs.d/packages/autocomplete/") ;This may not be appeared if you have already added.
 (require 'auto-complete-config)
-(global-auto-complete-mode t)
-(define-key ac-complete-mode-map "\C-n" 'ac-next)
-(define-key ac-complete-mode-map "\C-p" 'ac-previous)
-(setq ac-auto-start 3)
-(setq ac-dwim t)
-(set-default 'ac-sources '(ac-source-abbrev ac-source-words-in-buffer))
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/packages/autocomplete/ac-dict")
+(ac-config-default)
+(setq ac-auto-start t)
+(setq ac-delay 0.2)
+
+
+;;(define-key ac-complete-mode-map "\C-n" 'ac-next)
+;;(define-key ac-complete-mode-map "\C-p" 'ac-previous)
+;;(setq ac-auto-start 2)
+;;(setq ac-dwim t)
+;;(set-default 'ac-sources '(ac-source-abbrev ac-source-words-in-buffer))
 
 ;;auto-complete C++模式配置
 (defconst c++-keywords
