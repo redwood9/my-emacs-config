@@ -7,3 +7,4 @@
 .emacs.d/ac-comphist.dat
 .emacs.d/tramp
 .emacs.d/cedet/*
+.emacs.d/ede-projects.el
