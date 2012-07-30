@@ -105,7 +105,7 @@
 ;;(autoload 'speedbar "speedbar")
 ;;(setq speedbar-fetch-etags-command "etags"
 ;;      speedbar-fetch-etags-arguments '("-f" "-"))
-(require 'semanticdb-ectag)
+;;(require 'semanticdb-ectag)
 
 
 (speedbar-add-supported-extension ".php")

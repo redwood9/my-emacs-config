@@ -6,3 +6,4 @@
 .emacs.d/\%backup\%\~
 .emacs.d/ac-comphist.dat
 .emacs.d/tramp
+.emacs.d/cedet/*
