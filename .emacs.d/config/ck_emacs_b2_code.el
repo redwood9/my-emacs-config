@@ -49,10 +49,10 @@
 (ac-config-default)
 (setq ac-auto-start t)
 (setq ac-delay 0.2)
-
-
-;;(define-key ac-complete-mode-map "\C-n" 'ac-next)
-;;(define-key ac-complete-mode-map "\C-p" 'ac-previous)
+(define-key ac-complete-mode-map "\C-n" 'ac-next)
+(define-key ac-complete-mode-map "\C-p" 'ac-previous)
+(add-to-list 'ac-sources '(ac-source-semantic-raw))
+;;(set-default 'ac-sources '(ac-source-semantic-raw))
 ;;(setq ac-auto-start 2)
 ;;(setq ac-dwim t)
 ;;(set-default 'ac-sources '(ac-source-abbrev ac-source-words-in-buffer))
@@ -335,3 +335,26 @@
                   (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
 (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
 (multi-web-global-mode 1)
+
+
+;;在html和css文件修改后，让firefox中的文件自动加载
+(defun auto-reload-firefox-on-after-save-hook ()         
+          (add-hook 'after-save-hook
+                       '(lambda ()
+                          (interactive)
+                          (comint-send-string (inferior-moz-process)
+                                              "setTimeout(BrowserReload(), \"100\");"))
+                       'append 'local)) ; buffer-local
+
+;; Example - you may want to add hooks for your own modes.
+;; I also add this to python-mode when doing django development.
+(add-hook 'html-mode-hook 'auto-reload-firefox-on-after-save-hook)
+(add-hook 'css-mode-hook 'auto-reload-firefox-on-after-save-hook)
+
+
+;;利用rainbow对css中的颜色自动染色
+;; CSS and Rainbow modes 
+(require 'rainbow-mode)
+(defun all-css-modes() (css-mode) (rainbow-mode)) 
+;; Load both major and minor modes in one call based on file type 
+(add-to-list 'auto-mode-alist '("\\.css$" . all-css-modes)) 
