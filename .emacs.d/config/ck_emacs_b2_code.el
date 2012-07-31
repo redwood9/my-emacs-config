@@ -368,3 +368,23 @@
 ; (require 'ecb)
 ; (setq stack-trace-on-error t)
 ;;(require 'ecb-autoloads)
+
+;;load yasnippet
+
+(add-to-list 'load-path
+                  "~/.emacs.d/packages/yas")
+(setq yas/snippet-dirs '("~/.emacs.d/packages/yas/snippets"))
+(require 'yasnippet)
+(yas/global-mode 1)
+
+;;js2-mode tab和yas冲突
+(eval-after-load 'js2-mode
+  '(progn
+     (define-key js2-mode-map (kbd "TAB") (lambda()
+                                            (interactive)
+                                            (let ((yas/fallback-behavior 'return-nil))
+                                              (unless (yas/expand)
+                                                (indent-for-tab-command)
+                                                (if (looking-back "^\s*")
+                                                    (back-to-indentation))))))))
+
