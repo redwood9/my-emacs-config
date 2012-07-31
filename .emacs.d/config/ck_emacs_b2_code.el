@@ -339,6 +339,8 @@
 (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
 (multi-web-global-mode 1)
 
+;;
+(require 'moz)
 
 ;;在html和css文件修改后，让firefox中的文件自动加载
 (defun auto-reload-firefox-on-after-save-hook ()         
