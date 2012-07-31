@@ -319,8 +319,11 @@
 ;;auto load hs-minor 代码折叠
 (add-hook 'c-mode-common-hook   'hs-minor-mode)
 (add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
-(add-hook 'javascript-mode-hook       'hs-minor-mode 'linum-mode)
-(add-hook 'php-mode-hook       'hs-minor-mode)
+(add-hook 'javascript-mode-hook 'hs-minor-mode 'linum-mode)
+(add-hook 'js-mode-hook 'hs-minor-mode 'linum-mode)
+(add-hook 'js2-mode-hook 'hs-minor-mode 'linum-mode)
+;;(add-hook 'php-mode-hook       'hs-minor-mode)
+(add-hook 'php-mode-hook (lambda () (hs-minor-mode 1)))
 (add-hook 'sh-mode-hook         'hs-minor-mode)
 (add-hook 'html-mode-hook         'hs-minor-mode 'zencoding-mode 'multi-web-mode)
 (global-set-key [f1] 'hs-toggle-hiding)
@@ -360,8 +363,8 @@
 (add-to-list 'auto-mode-alist '("\\.css$" . all-css-modes)) 
 
 ;;load ecb
-(add-to-list 'load-path
-                     "~/.emacs.d/packages/ecb")
-(require 'ecb)
-(setq stack-trace-on-error t)
+; (add-to-list 'load-path
+;                      "~/.emacs.d/packages/ecb")
+; (require 'ecb)
+; (setq stack-trace-on-error t)
 ;;(require 'ecb-autoloads)

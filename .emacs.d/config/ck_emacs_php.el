@@ -28,7 +28,7 @@
 (add-hook 'php-mode-hook 'my-php-mode-stuff)
 
 (defun my-php-mode-stuff ()
-  (local-set-key (kbd "<f1>") 'my-php-function-lookup)
+  ;;(local-set-key (kbd "<f1>") 'my-php-function-lookup)
   (local-set-key (kbd "C-<f1>") 'my-php-symbol-lookup))
 
 
