@@ -1,6 +1,7 @@
 ;;;;;;;;;;cedet≈‰÷√
-(load-file "~/.emacs.d/packages/cedet/common/cedet.el")
-;;(load-file "~/.emacs.d/packages/ecb-2.40/ecb.elc")
+(load-file "~/.emacs.d/cedet-1.1/common/cedet.el")
+;; (load-file "~/.emacs.d/cedet-1.1/lisp/cedet/cedet.el")
+;; (load-file "~/.emacs.d/packages/ecb-2.40/ecb.elc")
 
 ;;(load-file "~/.emacs.d/packages/tramp-2.2.0/tramp-2.2.0/lisp/tramp.el")
 ;;(require 'tramp)

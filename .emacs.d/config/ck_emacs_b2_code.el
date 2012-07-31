@@ -358,3 +358,10 @@
 (defun all-css-modes() (css-mode) (rainbow-mode)) 
 ;; Load both major and minor modes in one call based on file type 
 (add-to-list 'auto-mode-alist '("\\.css$" . all-css-modes)) 
+
+;;load ecb
+(add-to-list 'load-path
+                     "~/.emacs.d/packages/ecb")
+(require 'ecb)
+(setq stack-trace-on-error t)
+;;(require 'ecb-autoloads)
