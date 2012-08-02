@@ -40,20 +40,20 @@
 
 (defconst js2-imenu-extension-styles
   `((:framework jquery
-     :call-re   "\\_<\\(?:jQuery\\|\\$\\|_\\)\\.extend\\s-*("
-     :recorder  js2-imenu-record-jquery-extend)
+				:call-re   "\\_<\\(?:jQuery\\|\\$\\|_\\)\\.extend\\s-*("
+				:recorder  js2-imenu-record-jquery-extend)
 
     (:framework jquery-ui
-     :call-re   "^\\s-*\\(?:jQuery\\|\\$\\)\\.widget\\s-*("
-     :recorder  js2-imenu-record-string-declare)
+				:call-re   "^\\s-*\\(?:jQuery\\|\\$\\)\\.widget\\s-*("
+				:recorder  js2-imenu-record-string-declare)
 
     (:framework dojo
-     :call-re   "^\\s-*dojo.declare\\s-*("
-     :recorder  js2-imenu-record-string-declare)
+				:call-re   "^\\s-*dojo.declare\\s-*("
+				:recorder  js2-imenu-record-string-declare)
 
     (:framework backbone
-     :call-re   ,(concat "\\_<" js2-mode-identifier-re "\\.extend\\s-*(")
-     :recorder  js2-imenu-record-backbone-extend))
+				:call-re   ,(concat "\\_<" js2-mode-identifier-re "\\.extend\\s-*(")
+				:recorder  js2-imenu-record-backbone-extend))
   "List of JavaScript class definition or extension styles.
 
 :framework is a valid value in `js2-imenu-enabled-frameworks'.

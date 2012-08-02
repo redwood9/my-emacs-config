@@ -165,6 +165,48 @@
 ;;====自动补全括号=====
 
 
+;;smart-tab配置
+;; (setq-default tab-width 4) ; or any other preferred value
+;; (setq cua-auto-tabify-rectangles nil)
+
+;; (defadvice align (around smart-tabs activate)
+;;   (let ((indent-tabs-mode nil)) ad-do-it))
+
+;; (defadvice align-regexp (around smart-tabs activate)
+;;   (let ((indent-tabs-mode nil)) ad-do-it))
+
+;; (defadvice indent-relative (around smart-tabs activate)
+;;   (let ((indent-tabs-mode nil)) ad-do-it))
+
+;; (defadvice indent-according-to-mode (around smart-tabs activate)
+;;   (let ((indent-tabs-mode indent-tabs-mode))
+;;     (if (memq indent-line-function
+;;               '(indent-relative
+;;                 indent-relative-maybe))
+;;         (setq indent-tabs-mode nil))
+;;     ad-do-it))
+
+;; (defmacro smart-tabs-advice (function offset)
+;;   `(progn
+;;      (defvaralias ',offset 'tab-width)
+;;      (defadvice ,function (around smart-tabs activate)
+;;        (cond
+;;         (indent-tabs-mode
+;;          (save-excursion
+;;            (beginning-of-line)
+;;            (while (looking-at "\t*\\( +\\)\t+")
+;;              (replace-match "" nil nil nil 1)))
+;;          (setq tab-width tab-width)
+;;          (let ((tab-width fill-column)
+;;                (,offset fill-column)
+;;                (wstart (window-start)))
+;;            (unwind-protect
+;;                (progn ad-do-it)
+;;              (set-window-start (selected-window) wstart))))
+;;         (t
+;;          ad-do-it)))))
+;;smart-tab 配置结束
+
 ;; 对这些模式重新配置 enter 键, 使得按 enter 换行时可以自动缩进
 (add-hook 'c-mode-hook (lambda () (local-set-key [(return)] 'newline-and-indent) ))
 (add-hook 'c-mode-hook (lambda () (setq comment-column 48) ))
@@ -186,10 +228,21 @@
             (lambda ()
                 (local-set-key [(return)] 'newline-and-indent)))
 
+
+;;加载yasnippet
+(add-to-list 'load-path
+                  "~/.emacs.d/packages/yas")
+(setq yas/snippet-dirs '("~/.emacs.d/packages/yas/snippets"))
+(require 'yasnippet)
+(yas/global-mode 1)
+;;yasnippet结束
+
+
 ;;(add-to-list 'load-path "~/.emacs.d/packages/jquery-doc")
 (require 'jquery-doc)
 ;; adds ac-source-jquery to the ac-sources list
 (add-hook 'js2-mode-hook 'jquery-doc-setup)
+(add-hook 'js-mode-hook 'jquery-doc-setup)
 
 ;;nxhtml
 ;;(load "~/.emacs.d/packages/nxhtml/autostart.el")
@@ -201,13 +254,29 @@
 ;;加载js2-mode
 
 ;;(autoload 'espresso-mode "espresso")
-(autoload 'espresso-mode "espresso" nil t)
-(setq espresso-indent-level 4
-	  indent-tabs-mode nil
-	  c-basic-offset 4)
+; (autoload 'espresso-mode "espresso" nil t)
+; (setq espresso-indent-level 4
+; 	  indent-tabs-mode nil
+; 	  c-basic-offset 4)
 
 (autoload 'js2-mode "js2-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
+;;解决js2-mode 与 yasnippet tab冲突的问题
+; (eval-after-load 'js2-mode
+;   '(progn
+;      (define-key js2-mode-map (kbd "\C-tab") (lambda()
+;                                             (interactive)
+;                                             (let ((yas/fallback-behavior 'return-nil))
+;                                               (unless (yas/expand)
+;                                                 (indent-for-tab-command)
+;                                                 (if (looking-back "^\s*")
+;                                                     (back-to-indentation))))))))
+
+
+
+;; (smart-tabs-advice js2-indent-line js2-basic-offset)
+;;(add-to-list 'auto-mode-alist '("\\.js$" . js-mode))
 ;;(require 'js2-highlight-vars)
 ;;解决js2缩进问题
 (defun my-js2-indent-function ()
@@ -289,7 +358,7 @@
 ;;	  (js2-highlight-vars-mode))
   (message "My JS2 hook"))
 
-(add-hook 'js2-mode-hook 'my-js2-mode-hook)
+;;(add-hook 'js2-mode-hook 'my-js2-mode-hook)
 ;;js2-mode配置完成
 
 
@@ -355,7 +424,9 @@
 ;; I also add this to python-mode when doing django development.
 (add-hook 'html-mode-hook 'auto-reload-firefox-on-after-save-hook)
 (add-hook 'css-mode-hook 'auto-reload-firefox-on-after-save-hook)
-
+; (add-hook 'js-mode-hook 'auto-reload-firefox-on-after-save-hook)
+(add-hook 'js2-mode-hook 'auto-reload-firefox-on-after-save-hook)
+; (add-hook 'javascript-mode-hook 'auto-reload-firefox-on-after-save-hook)
 
 ;;利用rainbow对css中的颜色自动染色
 ;; CSS and Rainbow modes 
@@ -373,20 +444,5 @@
 
 ;;load yasnippet
 
-(add-to-list 'load-path
-                  "~/.emacs.d/packages/yas")
-(setq yas/snippet-dirs '("~/.emacs.d/packages/yas/snippets"))
-(require 'yasnippet)
-(yas/global-mode 1)
 
-;;js2-mode tab和yas冲突
-(eval-after-load 'js2-mode
-  '(progn
-     (define-key js2-mode-map (kbd "TAB") (lambda()
-                                            (interactive)
-                                            (let ((yas/fallback-behavior 'return-nil))
-                                              (unless (yas/expand)
-                                                (indent-for-tab-command)
-                                                (if (looking-back "^\s*")
-                                                    (back-to-indentation))))))))
 

@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 1999, 2000, 2001, 2003, 2004 Turadg Aleahmad
 ;;               2008 Aaron S. Hawley
-;;               2011 Eric James Michael Ritz
+;;               2011, 2012 Eric James Michael Ritz
 
 ;; Maintainer: Eric James Michael Ritz <lobbyjones at gmail dot com>
 ;; Original Author: Turadg Aleahmad, 1999-2004
@@ -10,10 +10,10 @@
 ;; Created: 1999-05-17
 ;; X-URL:   https://github.com/ejmr/php-mode
 
-(defconst php-mode-version-number "1.6.4"
+(defconst php-mode-version-number "1.6.5"
   "PHP Mode version number.")
 
-(defconst php-mode-modified "2011-09-25"
+(defconst php-mode-modified "2012-05-19"
   "PHP Mode build date.")
 
 ;;; License
@@ -260,7 +260,7 @@ Implements PHP version of `beginning-of-defun-function'."
         (if (eq opoint (point))
             (re-search-forward php-beginning-of-defun-regexp
                                nil 'noerror))
-	(setq arg (1+ arg))))))
+  (setq arg (1+ arg))))))
 
 (defun php-end-of-defun (&optional arg)
   "Move the end of the ARGth PHP function from point.
@@ -419,6 +419,19 @@ This is was done due to the problem reported here:
 (defun php-c-vsemi-status-unknown-p ()
   "See `php-c-at-vsemi-p'."
   )
+
+(defun php-lineup-arglist-intro (langelem)
+  (save-excursion
+    (goto-char (cdr langelem))
+    (vector (+ (current-column) c-basic-offset))))
+
+(defun php-lineup-arglist-close (langelem)
+  (save-excursion
+    (goto-char (cdr langelem))
+    (vector (current-column))))
+
+(c-set-offset 'arglist-intro 'php-lineup-arglist-intro)
+(c-set-offset 'arglist-close 'php-lineup-arglist-close)
 
 ;;;###autoload
 (define-derived-mode php-mode c-mode "PHP"
@@ -716,8 +729,8 @@ searching the PHP website."
   (eval-when-compile
     (regexp-opt
      '(;; core constants
-       "__LINE__" "__FILE__"
-       "__FUNCTION__" "__CLASS__" "__METHOD__"
+       "__LINE__" "__FILE__" "__DIR__"
+       "__FUNCTION__" "__CLASS__" "__TRAIT__" "__METHOD__"
        "__NAMESPACE__"
        "__COMPILER_HALT_OFFSET__"
        "PHP_OS" "PHP_VERSION"
@@ -990,7 +1003,7 @@ searching the PHP website."
     (regexp-opt
      ;; "class", "new" and "extends" get special treatment
      ;; "case" gets special treatment elsewhere
-     '("and" "break" "continue" "declare" "default" "do" "echo" "else" "elseif"
+     '("and" "break" "continue" "declare" "default" "die" "do" "echo" "else" "elseif"
        "endfor" "endforeach" "endif" "endswitch" "endwhile" "exit"
        "extends" "for" "foreach" "global" "if" "include" "include_once"
        "or" "require" "require_once" "return" "return new" "static" "switch"
@@ -1200,6 +1213,24 @@ searching the PHP website."
 
 (add-to-list 'flymake-err-line-patterns
              '("\\(Parse\\|Fatal\\) error: \\(.*?\\) in \\(.*?\\) on line \\([0-9]+\\)" 3 4 nil 2))
+
+
+(defun php-send-region (start end)
+  "Send the region between `start' and `end' to PHP for execution.
+The output will appear in the buffer *PHP*."
+  (interactive "r")
+  (let ((php-buffer (get-buffer-create "*PHP*"))
+        (code (buffer-substring start end)))
+    ;; Calling 'php -r' will fail if we send it code that starts with
+    ;; '<?php', which is likely.  So we run the code through this
+    ;; function to check for that prefix and remove it.
+    (flet ((clean-php-code (code)
+                           (if (string-prefix-p "<?php" code t)
+                               (substring code 5)
+                             code)))
+      (call-process "php" nil php-buffer nil "-r" (clean-php-code code)))))
+
+(define-key php-mode-map "\C-c\C-r" 'php-send-region)
 
 
 (provide 'php-mode)
