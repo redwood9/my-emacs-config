@@ -1,22 +1,22 @@
-;¼ÓÔØxcscope£¬·½±ãÔÄ¶ÁÔ´Âë
+;åŠ è½½xcscopeï¼Œæ–¹ä¾¿é˜…è¯»æºç 
 ;;(require 'xcscope)
-;; ÆÁÄ»¹ö¶¯¹â±ê²»¶¯
+;; å±å¹•æ»šåŠ¨å…‰æ ‡ä¸åŠ¨
 (global-set-key (kbd "C-n") (lambda (&optional n) (interactive "p")
 (scroll-up (or n 1))))
 (global-set-key (kbd "C-p") (lambda (&optional n) (interactive "p")
 (scroll-down (or n 1))))
 
-;;F4´ò¿ª×î½ü´ò¿ªµÄÎÄ¼şÁĞ±í
+;;F4æ‰“å¼€æœ€è¿‘æ‰“å¼€çš„æ–‡ä»¶åˆ—è¡¨
 (global-set-key [f4] 'recentf-open-files)
 
 (require 'ido)
 (ido-mode t)
  
-''×î½ü´ò¿ªµÄÎÄ¼ş
+''æœ€è¿‘æ‰“å¼€çš„æ–‡ä»¶
 (require 'recentf)
 (recentf-mode t)
 
-;; ×Ô¶¯Îª C/C++ µÄÍ·ÎÄ¼şÌí¼Ó #define ±£»¤¡£
+;; è‡ªåŠ¨ä¸º C/C++ çš„å¤´æ–‡ä»¶æ·»åŠ  #define ä¿æŠ¤ã€‚
 (auto-insert-mode) ;;; Adds hook to find-files-hook
 (setq auto-insert-directory "~/.emacs.d/mytemplates/") ;;; Or use custom, *NOTE* Trailing slash important
 (setq auto-insert-query nil)
@@ -34,13 +34,13 @@
 ;;(global-set-key (kbd "C-c C-l C-l") 'layout-restore)
 ;;(global-set-key (kbd "C-c C-l C-c") 'layout-delete-current)
 
-;;bm-mode ¶¨ÒåÊéÇ©²¢À´»ØÌø×ª
+;;bm-mode å®šä¹‰ä¹¦ç­¾å¹¶æ¥å›è·³è½¬
 (require 'bm)
 (global-set-key (kbd "<C-f2>") 'bm-toggle)
 (global-set-key (kbd "<f2>")   'bm-next)
 (global-set-key (kbd "<S-f2>") 'bm-previous)
  
-;;×Ô¶¯Ê¶±ğÎÄ¼ş±àÂë
+;;è‡ªåŠ¨è¯†åˆ«æ–‡ä»¶ç¼–ç 
 (require 'unicad)
 (xterm-mouse-mode t)
 ;;(setq server-use-tcp t)
@@ -50,7 +50,7 @@
 ;;(autoload 'company-mode "company" nil t)
 
 
-;;google C ÑùÊ½
+;;google C æ ·å¼
 ;;(require 'google-c-style)
 ;;(google-set-c-style t)
 ;;tramp
@@ -59,15 +59,15 @@
 (setq tramp-default-method "plink")
 ;;(setq tramp-default-method "pscp")
 
-;;¹ö¶¯Ò³ÃæÊ±±È½ÏÊæ·ş£¬²»ÒªÕûÒ³µÄ¹ö¶¯
+;;æ»šåŠ¨é¡µé¢æ—¶æ¯”è¾ƒèˆ’æœï¼Œä¸è¦æ•´é¡µçš„æ»šåŠ¨
 (setq scroll-step 1
 ;;scroll-margin 3
 scroll-conservatively 10000)
 
-;;ËùÓĞµÄÎÊÌâÓÃy/n·½Ê½£¬²»ÓÃyes/no·½Ê½¡£ÓĞµãÀÁ£¬Ö»ÏëÊäÈëÒ»¸ö×ÖÄ¸
+;;æ‰€æœ‰çš„é—®é¢˜ç”¨y/næ–¹å¼ï¼Œä¸ç”¨yes/noæ–¹å¼ã€‚æœ‰ç‚¹æ‡’ï¼Œåªæƒ³è¾“å…¥ä¸€ä¸ªå­—æ¯
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;;abbrev´úÂëÄ£°å
+;;abbrevä»£ç æ¨¡æ¿
 (setq-default abbrev-mode t)
 ;; do not bug me about saving my abbreviations
 (setq save-abbrevs nil)
@@ -103,27 +103,27 @@ scroll-conservatively 10000)
 )
 
 ;;choose the color theme
-;;(add-to-list load-path  ¡°~/emacs/site-lisp/color-theme¡±)
+;;(add-to-list load-path  â€œ~/emacs/site-lisp/color-themeâ€)
 ;;(load-file "~/.emacs.d/packages/color-theme-arjen.el")
 ;;(require 'color-theme)
 ;(color-theme-gnome2)
 ;(color-theme-zenburn)
 ;;(color-theme-arjen)
 ;;(color-theme-bharadwaj)
-;;;; ÉèÖÃtabbarÍâ¹Û
-;; ÉèÖÃÄ¬ÈÏÖ÷Ìâ: ×ÖÌå, ±³¾°ºÍÇ°¾°ÑÕÉ«£¬´óĞ¡
+;;;; è®¾ç½®tabbarå¤–è§‚
+;; è®¾ç½®é»˜è®¤ä¸»é¢˜: å­—ä½“, èƒŒæ™¯å’Œå‰æ™¯é¢œè‰²ï¼Œå¤§å°
 ;;(set-face-attribute 'tabbar-default-face nil
 ;;                    :family "Vera Sans YuanTi Mono"
 ;;                    :background "gray80"
 ;;                    :foreground "gray30"
 ;;                    :height 1.0
 ;;                    )
-;; ÉèÖÃ×ó±ß°´Å¥Íâ¹Û£ºÍâ¿ò¿ò±ß´óĞ¡ºÍÑÕÉ«
+;; è®¾ç½®å·¦è¾¹æŒ‰é’®å¤–è§‚ï¼šå¤–æ¡†æ¡†è¾¹å¤§å°å’Œé¢œè‰²
 ;;(set-face-attribute 'tabbar-button-face nil
  ;;                   :inherit 'tabbar-default
 ;;                    :box '(:line-width 1 :color "gray30")
 ;;                    )
-;; ÉèÖÃµ±Ç°tabÍâ¹Û£ºÑÕÉ«£¬×ÖÌå£¬Íâ¿ò´óĞ¡ºÍÑÕÉ«
+;; è®¾ç½®å½“å‰tabå¤–è§‚ï¼šé¢œè‰²ï¼Œå­—ä½“ï¼Œå¤–æ¡†å¤§å°å’Œé¢œè‰²
 ;;(set-face-attribute 'tabbar-selected-face nil
 ;;                    :inherit 'tabbar-default
 ;;                   :foreground "DarkGreen"
@@ -133,7 +133,7 @@ scroll-conservatively 10000)
 ;;                    ;; :underline "black"
 ;;                    :weight 'bold
 ;;                    )
-;; ÉèÖÃ·Çµ±Ç°tabÍâ¹Û£ºÍâ¿ò´óĞ¡ºÍÑÕÉ«
+;; è®¾ç½®éå½“å‰tabå¤–è§‚ï¼šå¤–æ¡†å¤§å°å’Œé¢œè‰²
 ;;(set-face-attribute 'tabbar-unselected-face nil
 ;;                    :inherit 'tabbar-default
 ;;                    :box '(:line-width 2 :color "gray70")
@@ -151,49 +151,49 @@ scroll-conservatively 10000)
 ;;(global-set-key [(f12)] 'recent-jump-jump-forward)
 (require 'recent-jump)
 
-;;Ìø×ªĞĞÊı
+;;è·³è½¬è¡Œæ•°
 (define-key   global-map   "\C-c\C-g"   'goto-line) 
 
 ;;(global-set-key [(f1)] 'eval-current-buffer )
 ;;pssvn
 ;;(require 'psvn)
 
-;;ĞĞºÅ
+;;è¡Œå·
 ;;(require 'linum+)
 ;;(global-linum-mode t)
 
 
 
 
-;;È¥µô¹¤¾ßÀ¸
+;;å»æ‰å·¥å…·æ 
 (when (eq system-type 'gnu/linux)
 (tool-bar-mode nil)
 (menu-bar-mode nil)
 )
 
-;;¹â±êÉèÖÃ
+;;å…‰æ ‡è®¾ç½®
 ;;(setq-default cursor-type 'bar)
 
 ;;(global-set-key [(control c control v)] 'uncomment-region)
 ;;(global-set-key [(f11)] 'eval-current-buffer )
 
-;;¹Ø±Õ×Ô¶¯±¸·İ
+;;å…³é—­è‡ªåŠ¨å¤‡ä»½
 
 
-;;Ö§³ÖÊó±ê¹ö¶¯
+;;æ”¯æŒé¼ æ ‡æ»šåŠ¨
 (mouse-wheel-mode t)
 
 ;;(setq make-backup-files nil)
 (setq backup-directory-alist '(("." . "~/.emacs.d/emacsback"))) 
 ;;(setq backup-directory-alist (quote (("." . "~/.emacs.d/emacsback")))
 
-;;;;Êó±êÅäÖÃ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;È·¶¨Ê¹ÓÃµÄÊÇ¹öÂÖÊó±ê
+;;;;é¼ æ ‡é…ç½®;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;ç¡®å®šä½¿ç”¨çš„æ˜¯æ»šè½®é¼ æ ‡
 (show-paren-mode 1)
-;;ÃüÁîĞĞÏÂ¿ÉÒÔÊ¹ÓÃÊó±ê¶¨Î»
+;;å‘½ä»¤è¡Œä¸‹å¯ä»¥ä½¿ç”¨é¼ æ ‡å®šä½
 (xterm-mouse-mode 1)
 
-;;;;;TABËõ½øÅäÖÃ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;TABç¼©è¿›é…ç½®;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq indent-tabs-mode nil)
 (setq default-tab-width 4)
 (setq tab-width 4)
@@ -201,11 +201,11 @@ scroll-conservatively 10000)
 (setq c-basic-offset 4)
 
 
-;;;; ÏÔÊ¾ĞĞºÅ£º
+;;;; æ˜¾ç¤ºè¡Œå·ï¼š
 ;;(setq column-number-mode t)
 ;;(setq line-number-mode t)
 
-;;;; ÏÔÊ¾Ê±¼ä
+;;;; æ˜¾ç¤ºæ—¶é—´
 (setq display-time-24hr-format t)
 (setq display-time-day-and-date t)
 (display-time)
@@ -231,7 +231,7 @@ scroll-conservatively 10000)
 
 ;;(set-fontset-font "fontset-default"  'gb18030 '("Microsoft YaHei" . "unicode-bmp"))
 
-;;ÕâÀïµÄÉèÖÃÊÇÎªÁËÔÚdaemonÄ£Ê½ÏÂ±£Ö¤×ÖÌåÖ®ÀàµÄÉèÖÃÆğ×÷ÓÃ
+;;è¿™é‡Œçš„è®¾ç½®æ˜¯ä¸ºäº†åœ¨daemonæ¨¡å¼ä¸‹ä¿è¯å­—ä½“ä¹‹ç±»çš„è®¾ç½®èµ·ä½œç”¨
 ;;(setq window-system-default-frame-alist
 ;;      '(
 ;;        ;; if frame created on x display
@@ -284,7 +284,7 @@ scroll-conservatively 10000)
 (global-set-key [?\S- ] 'set-mark-command) 
 
 
-;;ÉèÖÃ¹öÆÁÏà¹Ø²ÎÊı
+;;è®¾ç½®æ»šå±ç›¸å…³å‚æ•°
 ;;(setq scroll-step 1
 ;;scroll-margin 3
 ;;scroll-conservatively 10000)
@@ -352,14 +352,14 @@ scroll-conservatively 10000)
 
 
 
-(setq frame-title-format "Lear@%b");ÔÚ±êÌâÀ¸ÌáÊ¾ÄãÄ¿Ç°ÔÚÊ²Ã´Î»ÖÃ.
-(setq frame-title-format;ÉèÖÃ±êÌâÀ¸ÏÔÊ¾ÎÄ¼şµÄÍêÕûÂ·¾¶Ãû
+(setq frame-title-format "Lear@%b");åœ¨æ ‡é¢˜æ æç¤ºä½ ç›®å‰åœ¨ä»€ä¹ˆä½ç½®.
+(setq frame-title-format;è®¾ç½®æ ‡é¢˜æ æ˜¾ç¤ºæ–‡ä»¶çš„å®Œæ•´è·¯å¾„å
 '("%S" (buffer-file-name "%f"
 (dired-directory dired-directory "%b"))))
 
 
 ;; ===== Smart copy, if no region active, it simply copy the current whole line =====
-;; ³¬¼¶¸´ÖÆ £¬ÔÚÃ»ÓĞÑ¡ÖĞµÄÇé¿öÏÂ£¬alt+wÔòÎª¸´ÖÆÕûĞĞ£¬alt+kÎª¸´ÖÆµ±Ç°¹â±êµ½¾äÎ²µÄÄÚÈİ
+;; è¶…çº§å¤åˆ¶ ï¼Œåœ¨æ²¡æœ‰é€‰ä¸­çš„æƒ…å†µä¸‹ï¼Œalt+wåˆ™ä¸ºå¤åˆ¶æ•´è¡Œï¼Œalt+kä¸ºå¤åˆ¶å½“å‰å…‰æ ‡åˆ°å¥å°¾çš„å†…å®¹
 (defadvice kill-line (before check-position activate)
   (if (member major-mode
 			  '(emacs-lisp-mode scheme-mode lisp-mode
@@ -392,7 +392,7 @@ scroll-conservatively 10000)
 
 
 
-;;copy ¹â±êËùÔÚµ¥´Ê
+;;copy å…‰æ ‡æ‰€åœ¨å•è¯
 (defun copy-word (&optional arg)
 "Copy words at point"
 (interactive "P")
@@ -404,9 +404,9 @@ scroll-conservatively 10000)
 
 ;;(global-set-key (kbd "M-w") 'copy-word)
 
-;; ======= ³¬¼¶¸´ÖÆ½áÊø =======================
+;; ======= è¶…çº§å¤åˆ¶ç»“æŸ =======================
 
-;;;; ¸÷´°¿Ú¼äÇĞ»»
+;;;; å„çª—å£é—´åˆ‡æ¢
 ;;(global-map   "\M-b" 'windmove-left)
 ;;(global-set-key (kbd "<\M-b>") 'windmove-left)
 ;;(global-set-key [M-b] 'windmove-left)
@@ -422,22 +422,23 @@ scroll-conservatively 10000)
 ;;linum+
 ;;(require 'linum+)
 
-;ÔÚÎÄ¼ş¼ĞÖĞËÑË÷ÎÄ¼ş
+;åœ¨æ–‡ä»¶å¤¹ä¸­æœç´¢æ–‡ä»¶
 (require 'color-moccur)
 (global-set-key (kbd "C-c C-f") 'moccur-grep-find)
 
-;;ÔÚbuffer×ó²àÏÔÊ¾ĞĞºÅ
+;;åœ¨bufferå·¦ä¾§æ˜¾ç¤ºè¡Œå·
 (require 'linum)
-(defvar my-linum-format-string "%4d")
-(add-hook 'linum-before-numbering-hook 'my-linum-get-format-string)
-(defun my-linum-get-format-string ()
-  (let* ((width (length (number-to-string
-						 (count-lines (point-min) (point-max)))))
-		 (format (concat "%" (number-to-string width) "d")))
-	(setq my-linum-format-string format)))
-(setq linum-format 'my-linum-format)
-(defun my-linum-format (line-number)
-  (propertize (format my-linum-format-string line-number) 'face 'linum))
+;;(defvar my-linum-format-string "%4d")
+(setq linum-format "%4d")
+;; (add-hook 'linum-before-numbering-hook 'my-linum-get-format-string)
+;; (defun my-linum-get-format-string ()
+;;   (let* ((width (length (number-to-string
+;; 						 (count-lines (point-min) (point-max)))))
+;; 		 (format (concat "%" (number-to-string width) "d")))
+;; 	(setq my-linum-format-string format)))
+;; (setq linum-format 'my-linum-format)
+;; (defun my-linum-format (line-number)
+;;   (propertize (format my-linum-format-string line-number) 'face 'linum))
 
 (dolist (hook (list
 			   'c-mode-hook
@@ -460,7 +461,7 @@ scroll-conservatively 10000)
 			   ))
  (add-hook hook (lambda () (linum-mode 1))))
 
-;×î´ó»¯
+;æœ€å¤§åŒ–
 ;(defun my-maximized ()
 ;  (interactive)
 ;  (x-send-client-message
@@ -470,36 +471,36 @@ scroll-conservatively 10000)
 ;   nil 0 nil "_NET_WM_STATE" 32
 ;   '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
 ;  )
-;Æô¶¯Ê±×î´ó»¯
+;å¯åŠ¨æ—¶æœ€å¤§åŒ–
 ;(my-maximized)
 
-;;Æô¶¯0.5Ãëºó×Ô¶¯×î´ó»¯ £¨windowsÏÂ£©  
+;;å¯åŠ¨0.5ç§’åè‡ªåŠ¨æœ€å¤§åŒ– ï¼ˆwindowsä¸‹ï¼‰  
 (run-with-idle-timer 0.5 nil 'w32-send-sys-command 61488)  
 
-;;;;¸ßÁÁµ±Ç°ĞĞ
+;;;;é«˜äº®å½“å‰è¡Œ
 ;;(require 'hl-line)
 ;;(global-hl-line-mode t)
 
-;²»Éú³É #filename# ÁÙÊ±ÎÄ¼ş
+;ä¸ç”Ÿæˆ #filename# ä¸´æ—¶æ–‡ä»¶
 (setq auto-save-default nil)
 
-(setq user-full-name "³É¿ü")
+(setq user-full-name "æˆå¥")
 (setq user-mail-address "ck4918@gmail.com")
 
-;¹Ø±ÕÆô¶¯»­Ãæ
+;å…³é—­å¯åŠ¨ç”»é¢
 (custom-set-variables '(inhibit-startup-screen t))
 
 (setq auto-mode-alist
 (append '(("\\.txt\\'" . org-mode)) auto-mode-alist)) 
 
-;;Óï·¨ÏÔÊ¾´òÎÄ¼şÂı£¬½â¾ö
+;;è¯­æ³•æ˜¾ç¤ºæ‰“æ–‡ä»¶æ…¢ï¼Œè§£å†³
 (setq lazy-lock-defer-on-scrolling t)
 ;;(setq font-lock-support-mode 'lazy-lock-mode)
 (setq font-lock-maximum-decoration t)
 
 
-;; Èç¹ûÃ»ÓĞ¼¤»îµÄÇøÓò£¬¾Í×¢ÊÍ¡¢·´×¢ÊÍµ±Ç°ĞĞ£¬½öµ±ÔÚĞĞÎ²µÄÊ±ºò²ÅÔÚĞĞÎ²¼Ó×¢ÊÍ
-;; Èç¹ûÓĞÑ¡ÔñÇøÓò£¬Ôò×¢ÊÍÕû¸öÇøÓò
+;; å¦‚æœæ²¡æœ‰æ¿€æ´»çš„åŒºåŸŸï¼Œå°±æ³¨é‡Šã€åæ³¨é‡Šå½“å‰è¡Œï¼Œä»…å½“åœ¨è¡Œå°¾çš„æ—¶å€™æ‰åœ¨è¡Œå°¾åŠ æ³¨é‡Š
+;; å¦‚æœæœ‰é€‰æ‹©åŒºåŸŸï¼Œåˆ™æ³¨é‡Šæ•´ä¸ªåŒºåŸŸ
 (defun qiang-comment-dwim-line (&optional arg)
   "Replacement for the comment-dwim command.
 If no region is selected and current line is not blank and
